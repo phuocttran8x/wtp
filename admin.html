@@ -80,7 +80,12 @@ button,.button-link{border:0;background:var(--button);color:var(--button-text);p
 </div>
 <script>
 'use strict';
-const CONFIG={owner:'YOUR_GITHUB_USERNAME',repo:'YOUR_REPO_NAME',branch:'main',dataPath:'data.json'};
+const CONFIG = {
+  owner: 'phuocttran8x',
+  repo: 'wtp',
+  branch: 'main',
+  dataPath: 'data.json'
+};
 const ADMIN_PASSWORD_HASH='dc262188aa16565fe7542851fe416d55c58e8156c0b10924ba83c96d2d3a738f';
 let events=[],githubToken='',editingId=null,currentDataSha=null;
 async function sha256(text){const data=new TextEncoder().encode(text);const buf=await crypto.subtle.digest('SHA-256',data);return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('')}
