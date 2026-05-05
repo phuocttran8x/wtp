@@ -78,7 +78,12 @@ button,.button-link{border:0;background:var(--button);color:var(--button-text);p
 </main>
 <script>
 'use strict';
-const CONFIG = { owner: 'YOUR_GITHUB_USERNAME', repo: 'YOUR_REPO_NAME', branch: 'main', dataPath: 'data.json' };
+const CONFIG = {
+  owner: 'phuocttran8x',
+  repo: 'wtp',
+  branch: 'main',
+  dataPath: 'data.json'
+};
 let events = [];
 function todayString(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
 function parseDate(s){const p=String(s||'').split('-').map(Number);if(p.length!==3||p.some(isNaN))return new Date();return new Date(p[0],p[1]-1,p[2])}
