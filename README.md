@@ -1,52 +1,57 @@
-# Waterpoint Tracking GitHub Pages
+# Waterpoint Tracking - GitHub Pages
 
-## File trong bộ này
-- `index.html`: website chính
+## Files
+- `index.html`: trang public cho cư dân xem
+- `admin.html`: trang quản trị riêng, có mật khẩu
 - `data.json`: dữ liệu timeline
-- `files/`: thư mục để upload PDF nếu có
+- `files/`: thư mục lưu PDF nếu có
 
 ## Cấu hình bắt buộc
-Mở `index.html`, tìm:
+Mở cả `index.html` và `admin.html`, tìm:
 
 ```js
-const CONFIG={owner:'YOUR_GITHUB_USERNAME',repo:'YOUR_REPO_NAME',branch:'main',dataPath:'data.json'};
+const CONFIG = { owner: 'YOUR_GITHUB_USERNAME', repo: 'YOUR_REPO_NAME', branch: 'main', dataPath: 'data.json' };
 ```
 
-Ví dụ repo URL là:
+Ví dụ repo URL:
 
 ```text
 https://github.com/phuoctran/waterpoint-tracking
 ```
 
-thì sửa thành:
+Sửa thành:
 
 ```js
-const CONFIG={owner:'phuoctran',repo:'waterpoint-tracking',branch:'main',dataPath:'data.json'};
+const CONFIG = { owner: 'phuoctran', repo: 'waterpoint-tracking', branch: 'main', dataPath: 'data.json' };
 ```
 
-## Upload lên GitHub
-1. Tạo repo mới trên GitHub.
-2. Upload toàn bộ file:
-   - `index.html`
-   - `data.json`
-   - thư mục `files/`
-3. Vào Settings → Pages.
-4. Source: Deploy from a branch.
-5. Branch: `main`, folder: `/root`.
+## GitHub Pages
+Settings → Pages → Deploy from a branch → `main` → `/root`
 
-## Cách vào admin
-Mở website, nhấn:
+## Admin
+Truy cập:
 
 ```text
-Ctrl + Alt + A
+/admin.html
 ```
 
-Nhập GitHub fine-grained token có quyền:
-- Repository access: repo này
-- Permissions → Contents: Read and Write
+Mật khẩu admin:
 
-## Cách cập nhật
-1. Vào admin.
-2. Thêm/sửa/xóa timeline.
-3. Bấm `Commit data.json lên GitHub`.
-4. Người xem refresh trang sẽ thấy dữ liệu mới.
+```text
+wxfA9F6UEO1gZQcX
+```
+
+Sau khi đăng nhập admin, nhập GitHub fine-grained token có quyền:
+
+```text
+Contents: Read and Write
+```
+
+## Dark mode
+Có nút 🌙 / ☀️ trên cả trang public và admin. Trạng thái được lưu trong trình duyệt.
+
+
+## Hiển thị timeline
+- Mục mới nhất luôn mở full nội dung.
+- Các mục cũ mặc định thu gọn, chỉ hiện tiêu đề và ngày.
+- Người xem bấm `Xem chi tiết` để mở nội dung cũ, bấm `Thu gọn` để đóng lại.
