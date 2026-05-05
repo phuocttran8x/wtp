@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-05T03:38:01.575Z",
+  "updatedAt": "2026-05-05T03:39:29.669Z",
   "events": [
     {
       "id": "e-1777951852008-8d4e90496235d",
@@ -35,6 +35,15 @@
       "date": "2026-05-03",
       "title": "Yêu cầu CDT xác nhận đã nhận được email",
       "content": "Kính gửi:\n- Chủ đầu tư Khu đô thị Waterpoint\n\nTôi là cư dân đang sinh sống tại Khu đô thị Waterpoint.\n\nVào ngày 12/04/2026, tôi đã gửi email liên quan đến một số nội dung cần được giải trình.\n\nTuy nhiên, đến thời điểm hiện tại:\n- Tôi chưa nhận được phản hồi chính thức từ phía Chủ đầu tư\n\nThông qua email này, tôi đề nghị:\n- Xác nhận đã tiếp nhận nội dung email ngày 12/04/2026\n- Phản hồi đầy đủ các nội dung đã được gửi trước đó\n\nKính đề nghị phản hồi trong thời gian sớm nhất.\n\nTrân trọng.",
+      "attachmentUrl": ""
+    },
+    {
+      "id": "e-1777952367552-147a0cf7b6fe78",
+      "party": "cdt",
+      "type": "sent",
+      "date": "2026-05-05",
+      "title": "Lần 2 - Yêu cầu CDT xác nhận đã nhận được email",
+      "content": "Kính gửi:\n- Chủ đầu tư Khu đô thị Waterpoint\n- Ban Quản lý Khu đô thị Waterpoint\n\nTôi là cư dân đang sinh sống tại Khu đô thị Waterpoint.\n\nVào ngày 12/04/2026, tôi đã gửi email đến Quý đơn vị để phản ánh và yêu cầu giải trình các vấn đề liên quan đến công tác quản lý vận hành, với các nội dung chính bao gồm:\n\n- Minh bạch tài chính (thu – chi, phí quản lý, bảo trì)\n- Công tác an ninh nội khu\n- Quản lý thi công gây hư hỏng hạ tầng\n- Việc dự án Solaria sử dụng/chặn đường nội khu\n- Sự chênh lệch và cơ sở tính phí quản lý\n- Trách nhiệm quản lý vận hành của Ban Quản lý\n\nTuy nhiên, đến thời điểm hiện tại:\n- Tôi chưa nhận được bất kỳ phản hồi nào từ phía Chủ đầu tư (CĐT) cũng như Ban Quản lý (BQL)\n- Chưa có cơ sở xác định việc các nội dung phản ánh đã được tiếp nhận đầy đủ hay chưa\n\nVì vậy, tôi đề nghị:\n\n1. Xác nhận tiếp nhận\n- CĐT và BQL xác nhận đã nhận được email ngày 12/04/2026\n\n2. Phản hồi nội dung\n- Phản hồi chính thức bằng văn bản đối với toàn bộ các nội dung đã nêu\n\n3. Kế hoạch xử lý\n- Cung cấp thời gian dự kiến xử lý cụ thể cho từng vấn đề\n\nViệc chậm trễ phản hồi:\n- Ảnh hưởng trực tiếp đến quyền lợi cư dân\n- Gây thiếu minh bạch trong công tác quản lý vận hành\n\nKính đề nghị:\n- Kiểm tra, xác nhận và phản hồi trong vòng 05 ngày làm việc kể từ khi nhận được email này\n\nTrân trọng.",
       "attachmentUrl": ""
     }
   ]
