@@ -1280,6 +1280,9 @@
                 } else if (mediaType === 'video') {
                     if (isYouTubeUrl(mediaUrl)) {
                         modalBody.innerHTML = '<iframe src="' + escapeHtml(getYouTubeEmbedUrl(mediaUrl)) + '" title="' + escapeHtml(mediaTitle) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+                    } else if (!isDirectVideoUrl(mediaUrl)) {
+                        window.open(mediaUrl, '_blank', 'noopener');
+                        return;
                     } else {
                         modalBody.innerHTML = '<video controls style="width:100%;height:auto"><source src="' + escapeHtml(mediaUrl) + '"></video>'
                     }
@@ -1315,7 +1318,8 @@
                     } else if (isDirectVideoUrl(mediaUrl)) {
                         modalBody.innerHTML = '<video controls style="width:100%;height:auto"><source src="' + escapeHtml(mediaUrl) + '"></video>'
                     } else {
-                        modalBody.innerHTML = '<div class="gallery-card-fallback" style="min-height:260px">Không thể phát trực tiếp từ link này.<br />Bấm nút bên dưới để mở link gốc.</div><div style="padding:12px"><a class="button-link blue" href="' + escapeHtml(mediaUrl) + '" target="_blank" rel="noopener">Mở link gốc</a></div>'
+                        window.open(mediaUrl, '_blank', 'noopener');
+                        return;
                     }
                 }
                 modalInfo.textContent = mediaTitle;
