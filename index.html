@@ -1107,7 +1107,7 @@
 
         function renderGalleryTimeline(filter) {
             const allMedia = getAllMediaItems();
-            const filtered = filter === 'all' ? allMedia : allMedia.filter(m => m.type === filter);
+            const filtered = filter === 'all' ? allMedia : allMedia.filter(m => getMediaType(m) === filter);
             const container = document.getElementById('galleryContent');
             const countEl = document.getElementById('mediaCount');
             countEl.textContent = filtered.length + ' file';
