@@ -772,11 +772,12 @@
             if (!(type === 'image' || type === 'video')) return alert('Chỉ hỗ trợ Hình ảnh hoặc Video');
             const isImageExt = /\.(png|jpe?g|gif|webp|bmp|svg)(\?|#|$)/i.test(url);
             const isVideoExt = /\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i.test(url);
+            const isYouTube = /(youtube\.com|youtu\.be)/i.test(url);
             if (type === 'image' && !isImageExt) {
                 const ok = confirm('Link này không giống file ảnh trực tiếp (jpg/png/webp...). Vẫn thêm?');
                 if (!ok) return;
             }
-            if (type === 'video' && !isVideoExt) {
+            if (type === 'video' && !isVideoExt && !isYouTube) {
                 const ok = confirm('Link này không giống file video trực tiếp (mp4/webm...). Vẫn thêm?');
                 if (!ok) return;
             }
