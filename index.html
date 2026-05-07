@@ -618,6 +618,21 @@
             object-fit: cover
         }
         
+        .gallery-card-fallback {
+            width: 100%;
+            height: 100%;
+            min-height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px;
+            color: var(--muted);
+            background: linear-gradient(135deg, rgba(59, 130, 246, .12), rgba(16, 185, 129, .12));
+            font-size: 13px;
+            font-weight: 700
+        }
+        
         .gallery-card-badge {
             position: absolute;
             top: 8px;
@@ -1001,6 +1016,36 @@
             return filtered.sort((a, b) => parseDate(b.date) - parseDate(a.date))
         }
 
+        function isDirectImageUrl(url) {
+            return /\.(png|jpe?g|gif|webp|bmp|svg)(\?|#|$)/i.test(String(url || ''))
+        }
+
+        function isDirectVideoUrl(url) {
+            return /\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i.test(String(url || ''))
+        }
+
+        function getImageCardHtml(m, mediaDate) {
+            const title = escapeHtml(m.title || 'Hình ảnh');
+            const url = escapeHtml(m.url || '');
+            const dateHtml = mediaDate ? '<div class="gallery-card-date">' + formatDate(mediaDate) + '</div>' : '';
+            const direct = isDirectImageUrl(m.url);
+            let body = '';
+            if (direct) {
+                body = '<img src="' + url + '" alt="' + title + '" onerror="this.style.display=\'none\'; var fb=this.nextElementSibling; if(fb) fb.style.display=\'flex\';" /><div class="gallery-card-fallback" style="display:none">Không tải được ảnh đại diện<br />Bấm để mở link gốc</div>';
+            } else {
+                body = '<div class="gallery-card-fallback">Link ảnh không phải file trực tiếp<br />Bấm để mở link gốc</div>';
+            }
+            return '<div class="gallery-card" data-media-open-gallery="true" data-media-type="image" data-media-url="' + url + '" data-media-title="' + title + '">' + body + '<div class="gallery-card-badge">📷</div>' + dateHtml + '</div>'
+        }
+
+        function getVideoCardHtml(m, mediaDate) {
+            const title = escapeHtml(m.title || 'Video');
+            const url = escapeHtml(m.url || '');
+            const dateHtml = mediaDate ? '<div class="gallery-card-date">' + formatDate(mediaDate) + '</div>' : '';
+            const body = '<div class="gallery-card-fallback">▶ Video<br />Bấm để xem</div>';
+            return '<div class="gallery-card" data-media-open-gallery="true" data-media-type="video" data-media-url="' + url + '" data-media-title="' + title + '">' + body + '<div class="gallery-card-badge">▶️</div>' + dateHtml + '</div>'
+        }
+
         function renderGalleryTimeline(filter) {
             const allMedia = getAllMediaItems();
             const filtered = filter === 'all' ? allMedia : allMedia.filter(m => m.type === filter);
@@ -1017,17 +1062,9 @@
                 filtered.forEach(m => {
                     const mediaDate = m.date || m.eventDate;
                     if (m.type === 'image') {
-                        htmlAll += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="image" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Hình ảnh') + '">';
-                        htmlAll += '<img src="' + escapeHtml(m.url) + '" alt="' + escapeHtml(m.title || 'Hình ảnh') + '" />';
-                        htmlAll += '<div class="gallery-card-badge">📷</div>';
-                        htmlAll += '<div class="gallery-card-date">' + formatDate(mediaDate) + '</div>';
-                        htmlAll += '</div>'
+                        htmlAll += getImageCardHtml(m, mediaDate)
                     } else if (m.type === 'video') {
-                        htmlAll += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="video" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Video') + '">';
-                        htmlAll += '<video><source src="' + escapeHtml(m.url) + '" type="video/mp4"></video>';
-                        htmlAll += '<div class="gallery-card-badge">▶️</div>';
-                        htmlAll += '<div class="gallery-card-date">' + formatDate(mediaDate) + '</div>';
-                        htmlAll += '</div>'
+                        htmlAll += getVideoCardHtml(m, mediaDate)
                     }
                 });
                 htmlAll += '</div>';
@@ -1050,15 +1087,9 @@
                 html += '<div class="' + rowClass + '">';
                 grouped[date].forEach(m => {
                     if (m.type === 'image') {
-                        html += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="image" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Hình ảnh') + '">';
-                        html += '<img src="' + escapeHtml(m.url) + '" alt="' + escapeHtml(m.title || 'Hình ảnh') + '" />';
-                        html += '<div class="gallery-card-badge">📷</div>';
-                        html += '</div>'
+                        html += getImageCardHtml(m, null)
                     } else if (m.type === 'video') {
-                        html += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="video" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Video') + '">';
-                        html += '<video><source src="' + escapeHtml(m.url) + '" type="video/mp4"></video>';
-                        html += '<div class="gallery-card-badge">▶️</div>';
-                        html += '</div>'
+                        html += getVideoCardHtml(m, null)
                     }
                 });
                 html += '</div></div>'
@@ -1177,9 +1208,17 @@
                 const modalBody = document.getElementById('modalBody');
                 const modalInfo = document.getElementById('modalInfo');
                 if (mediaType === 'image') {
-                    modalBody.innerHTML = '<img src="' + escapeHtml(mediaUrl) + '" alt="' + escapeHtml(mediaTitle) + '" />'
+                    if (isDirectImageUrl(mediaUrl)) {
+                        modalBody.innerHTML = '<img src="' + escapeHtml(mediaUrl) + '" alt="' + escapeHtml(mediaTitle) + '" />'
+                    } else {
+                        modalBody.innerHTML = '<div class="gallery-card-fallback" style="min-height:260px">Không thể nhúng ảnh từ link này.<br />Bấm nút bên dưới để mở link gốc.</div><div style="padding:12px"><a class="button-link blue" href="' + escapeHtml(mediaUrl) + '" target="_blank" rel="noopener">Mở link gốc</a></div>'
+                    }
                 } else if (mediaType === 'video') {
-                    modalBody.innerHTML = '<video controls style="width:100%;height:auto"><source src="' + escapeHtml(mediaUrl) + '" type="video/mp4"></video>'
+                    if (isDirectVideoUrl(mediaUrl)) {
+                        modalBody.innerHTML = '<video controls style="width:100%;height:auto"><source src="' + escapeHtml(mediaUrl) + '"></video>'
+                    } else {
+                        modalBody.innerHTML = '<div class="gallery-card-fallback" style="min-height:260px">Không thể phát trực tiếp từ link này.<br />Bấm nút bên dưới để mở link gốc.</div><div style="padding:12px"><a class="button-link blue" href="' + escapeHtml(mediaUrl) + '" target="_blank" rel="noopener">Mở link gốc</a></div>'
+                    }
                 }
                 modalInfo.textContent = mediaTitle;
                 modal.classList.add('show')

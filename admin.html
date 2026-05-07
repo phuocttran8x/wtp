@@ -770,6 +770,16 @@
             if (!url) return alert('Vui lòng nhập link ảnh/video');
             if (!title) return alert('Vui lòng nhập tiêu đề');
             if (!(type === 'image' || type === 'video')) return alert('Chỉ hỗ trợ Hình ảnh hoặc Video');
+            const isImageExt = /\.(png|jpe?g|gif|webp|bmp|svg)(\?|#|$)/i.test(url);
+            const isVideoExt = /\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i.test(url);
+            if (type === 'image' && !isImageExt) {
+                const ok = confirm('Link này không giống file ảnh trực tiếp (jpg/png/webp...). Vẫn thêm?');
+                if (!ok) return;
+            }
+            if (type === 'video' && !isVideoExt) {
+                const ok = confirm('Link này không giống file video trực tiếp (mp4/webm...). Vẫn thêm?');
+                if (!ok) return;
+            }
             galleryItems.push({
                 id: 'g-' + Date.now() + '-' + Math.random().toString(16).slice(2),
                 type,
