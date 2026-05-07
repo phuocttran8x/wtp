@@ -145,7 +145,7 @@
             display: flex;
             justify-content: space-between;
             gap: 16px;
-            align-items: center
+            align-items: flex-start
         }
         
         .metric h3,
@@ -155,120 +155,135 @@
             margin: 0 0 6px
         }
         
-        .big-number {
-            font-size: 40px;
-            line-height: 1;
-            font-weight: 900;
-            color: var(--danger);
-            text-align: right
-        }
-        
         .small {
             color: var(--muted);
             font-size: 14px
         }
         
-        .reply-lag {
-            margin-top: 10px;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: var(--item-bg);
-            display: inline-flex;
-            align-items: baseline;
-            gap: 8px
+        .summary-unit {
+            width: 100%
         }
         
-        .reply-lag-value {
+        .summary-unit-name {
+            margin: 0;
             font-size: 34px;
+            font-weight: 900;
+            letter-spacing: .01em
+        }
+        
+        .aging-grid {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+            gap: 14px
+        }
+        
+        .aging-grid.has-single {
+            grid-template-columns: minmax(220px, 1fr)
+        }
+        
+        .aging-card {
+            padding: 20px 20px 18px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--item-bg);
+            min-height: 188px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color .25s ease, box-shadow .25s ease, transform .2s ease
+        }
+        
+        .aging-card.is-hidden {
+            display: none
+        }
+        
+        .aging-value-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px
+        }
+        
+        .aging-value {
+            font-size: clamp(70px, 7vw, 92px);
             line-height: 1;
             font-weight: 900;
-            color: var(--warning);
+            color: #d1d5db;
             letter-spacing: -.02em
         }
         
-        .reply-lag-label {
-            color: var(--muted);
-            font-size: 13px;
+        .aging-unit {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            color: var(--muted)
+        }
+        
+        .aging-metric {
+            margin-top: 10px;
+            font-size: 15px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .04em
-        }
-        
-        .reply-lag-text {
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 12px;
-            font-weight: 600
-        }
-        
-        .status {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 700;
-            white-space: nowrap
-        }
-        
-        .waiting {
-            background: #fef3c7;
-            color: #92400e
-        }
-        
-        .received {
-            background: #dcfce7;
-            color: #166534
-        }
-        
-        .none {
-            background: #fee2e2;
-            color: #991b1b
-        }
-        
-        .done {
-            background: #dbeafe;
-            color: #1d4ed8
-        }
-        
-        .online {
-            background: #dcfce7;
-            color: #166534
-        }
-        
-        .offline {
-            background: #fee2e2;
-            color: #991b1b
-        }
-        
-        body.dark .waiting {
-            background: #78350f;
-            color: #fde68a
-        }
-        
-        body.dark .received {
-            background: #14532d;
-            color: #bbf7d0
-        }
-        
-        body.dark .none {
-            background: #7f1d1d;
-            color: #fecaca
-        }
-        
-        body.dark .done {
-            background: #1e3a8a;
             color: #dbeafe
         }
         
-        body.dark .online {
-            background: #14532d;
-            color: #bbf7d0
+        .aging-note {
+            margin-top: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .02em;
+            color: var(--muted);
         }
         
-        body.dark .offline {
-            background: #7f1d1d;
-            color: #fecaca
+        .aging-card[data-tone="neutral"] {
+            border-color: #374151;
+            box-shadow: inset 0 0 0 1px rgba(148, 163, 184, .14)
+        }
+        
+        .aging-card[data-tone="neutral"] .aging-value {
+            color: #cbd5e1
+        }
+        
+        .aging-card[data-tone="good"] {
+            border-color: rgba(34, 197, 94, .45)
+        }
+        
+        .aging-card[data-tone="good"] .aging-value {
+            color: #86efac
+        }
+        
+        .aging-card[data-tone="watch"] {
+            border-color: rgba(234, 179, 8, .55)
+        }
+        
+        .aging-card[data-tone="watch"] .aging-value {
+            color: #fde047
+        }
+        
+        .aging-card[data-tone="warning"] {
+            border-color: rgba(249, 115, 22, .62);
+            box-shadow: inset 0 0 0 1px rgba(249, 115, 22, .16)
+        }
+        
+        .aging-card[data-tone="warning"] .aging-value {
+            color: #fdba74
+        }
+        
+        .aging-card[data-tone="critical"] {
+            border-color: rgba(239, 68, 68, .72);
+            box-shadow: 0 0 0 1px rgba(239, 68, 68, .24), 0 10px 28px rgba(127, 29, 29, .24)
+        }
+        
+        .aging-card[data-tone="critical"] .aging-value {
+            color: #f87171
+        }
+        
+        @media(max-width:760px) {
+            .summary-unit-name {
+                font-size: 30px
+            }
+            .aging-grid {
+                grid-template-columns: 1fr
+            }
         }
         
         .columns {
@@ -889,39 +904,59 @@
         <section class="summary">
             <div class="card">
                 <div class="metric">
-                    <div>
-                        <h3>Ban Quản Lý</h3><span class="status" id="bqlStatus">Đang tải</span>
-                        <div class="small">Từ email đầu tiên đến hôm nay</div>
-                        <div class="reply-lag">
-                            <div class="reply-lag-value" id="bqlLastReplyDays">--</div>
-                            <div>
-                                <div class="reply-lag-label">Ngày trễ</div>
-                                <div class="reply-lag-text" id="bqlLastReplyInfo">Đang tải phản hồi gần nhất</div>
+                    <div class="summary-unit">
+                        <h3 class="summary-unit-name">Ban Quản Lý</h3>
+                        <div class="aging-grid" id="bqlAgingGrid">
+                            <div class="aging-card" id="bqlProcessCard" data-tone="neutral">
+                                <div>
+                                    <div class="aging-value-row">
+                                        <div class="aging-value" id="bqlProcessDays">0</div>
+                                        <div class="aging-unit">NGÀY</div>
+                                    </div>
+                                    <div class="aging-metric">Thời gian xử lý</div>
+                                </div>
+                                <div class="aging-note" id="bqlProcessState">Đang theo dõi</div>
+                            </div>
+                            <div class="aging-card" id="bqlNoReplyCard" data-tone="neutral">
+                                <div>
+                                    <div class="aging-value-row">
+                                        <div class="aging-value" id="bqlNoReplyDays">0</div>
+                                        <div class="aging-unit">NGÀY</div>
+                                    </div>
+                                    <div class="aging-metric">Chờ phản hồi email</div>
+                                </div>
+                                <div class="aging-note" id="bqlNoReplyState">Đang theo dõi</div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="big-number" id="bqlTotalDays">0</div>
-                        <div class="small" style="text-align:right">ngày</div>
                     </div>
                 </div>
             </div>
             <div class="card">
                 <div class="metric">
-                    <div>
-                        <h3>Chủ Đầu Tư</h3><span class="status" id="cdtStatus">Đang tải</span>
-                        <div class="small">Từ email đầu tiên đến hôm nay</div>
-                        <div class="reply-lag">
-                            <div class="reply-lag-value" id="cdtLastReplyDays">--</div>
-                            <div>
-                                <div class="reply-lag-label">Ngày trễ</div>
-                                <div class="reply-lag-text" id="cdtLastReplyInfo">Đang tải phản hồi gần nhất</div>
+                    <div class="summary-unit">
+                        <h3 class="summary-unit-name">Chủ Đầu Tư</h3>
+                        <div class="aging-grid" id="cdtAgingGrid">
+                            <div class="aging-card" id="cdtProcessCard" data-tone="neutral">
+                                <div>
+                                    <div class="aging-value-row">
+                                        <div class="aging-value" id="cdtProcessDays">0</div>
+                                        <div class="aging-unit">NGÀY</div>
+                                    </div>
+                                    <div class="aging-metric">Thời gian xử lý</div>
+                                </div>
+                                <div class="aging-note" id="cdtProcessState">Đang theo dõi</div>
+                            </div>
+                            <div class="aging-card" id="cdtNoReplyCard" data-tone="neutral">
+                                <div>
+                                    <div class="aging-value-row">
+                                        <div class="aging-value" id="cdtNoReplyDays">0</div>
+                                        <div class="aging-unit">NGÀY</div>
+                                    </div>
+                                    <div class="aging-metric">Chờ phản hồi email</div>
+                                </div>
+                                <div class="aging-note" id="cdtNoReplyState">Đang theo dõi</div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="big-number" id="cdtTotalDays">0</div>
-                        <div class="small" style="text-align:right">ngày</div>
                     </div>
                 </div>
             </div>
@@ -1028,37 +1063,86 @@
             return events.filter(e => e.party === p)
         }
 
-        function statusClass(list) {
-            if (list.some(e => e.type === 'done')) return 'done';
-            if (list.some(e => e.type === 'reply')) return 'received';
-            if (list.length > 0) return 'none';
-            return 'waiting'
-        }
-
-        function statusText(list) {
-            if (list.some(e => e.type === 'done')) return 'Đã hoàn tất';
-            if (list.some(e => e.type === 'reply')) return 'Đã có phản hồi';
-            if (list.length > 0) return 'Chưa có phản hồi';
-            return 'Chưa có dữ liệu'
-        }
-
         function totalDays(list) {
             if (!list.length) return 0;
             const oldest = list.slice().sort((a, b) => parseDate(a.date) - parseDate(b.date))[0];
             return diffDays(oldest.date)
         }
 
-        function getLastReplyDays(list) {
-            const replies = list.filter(e => e.type === 'reply' || e.type === 'done');
-            if (!replies.length) return null;
-            const latest = replies.slice().sort((a, b) => parseDate(b.date) - parseDate(a.date))[0];
-            return diffDays(latest.date)
+        function getEventOrderToken(e) {
+            const id = String((e && e.id) || '');
+            const m = id.match(/^e-(\d+)-/);
+            if (!m) return Number.MAX_SAFE_INTEGER;
+            return Number(m[1])
         }
 
-        function lastReplyInfoText(list) {
-            const days = getLastReplyDays(list);
-            if (days === null) return 'Chưa có phản hồi';
-            return 'Phản hồi gần nhất'
+        function isReminderEmail(e) {
+            const text = String((e && e.title) || '') + '\n' + String((e && e.content) || '');
+            const normalized = text.toLowerCase();
+            return normalized.includes('nhắc phản hồi') || normalized.includes('nhac phan hoi')
+        }
+
+        function pendingReplyDays(list) {
+            if (!list.length) return 0;
+            const ordered = list.slice().sort((a, b) => {
+                const d = parseDate(a.date) - parseDate(b.date);
+                if (d !== 0) return d;
+                const t = getEventOrderToken(a) - getEventOrderToken(b);
+                return t !== 0 ? t : String(a.id).localeCompare(String(b.id))
+            });
+            let pendingFrom = null;
+            let latestReplyDate = null;
+            let hasReminderPending = false;
+            ordered.forEach(e => {
+                if (e.type === 'sent') {
+                    if (pendingFrom === null) pendingFrom = e.date;
+                    if (isReminderEmail(e)) hasReminderPending = true;
+                }
+                if (e.type === 'reply' || e.type === 'done') {
+                    pendingFrom = null;
+                    hasReminderPending = false;
+                    latestReplyDate = e.date;
+                }
+            });
+            if (!pendingFrom) return 0;
+            if (hasReminderPending && latestReplyDate) return diffDays(latestReplyDate);
+            return diffDays(pendingFrom)
+        }
+
+        function getAgingTone(days) {
+            if (days === null || typeof days !== 'number') return 'neutral';
+            if (days === 0) return 'neutral';
+            if (days <= 3) return 'good';
+            if (days <= 7) return 'watch';
+            if (days <= 14) return 'warning';
+            return 'critical'
+        }
+
+        function getAgingMessage(days, zeroText) {
+            if (days === null || typeof days !== 'number') return zeroText || 'Đang theo dõi';
+            if (days === 0) return zeroText || 'Đang theo dõi';
+            if (days <= 3) return 'Đang theo dõi';
+            if (days <= 7) return 'Đang chờ phản hồi';
+            return 'Xử lý kéo dài'
+        }
+
+        function renderAgingCard(cardId, valueId, stateId, days, zeroText) {
+            const card = document.getElementById(cardId);
+            const value = document.getElementById(valueId);
+            const state = document.getElementById(stateId);
+            if (!card || !value || !state) return;
+            value.textContent = days === null || typeof days !== 'number' ? 0 : days;
+            card.setAttribute('data-tone', getAgingTone(days));
+            state.textContent = getAgingMessage(days, zeroText)
+        }
+
+        function toggleNoReplyCard(gridId, cardId, days) {
+            const grid = document.getElementById(gridId);
+            const card = document.getElementById(cardId);
+            if (!grid || !card) return;
+            const hideCard = !days || days <= 0;
+            card.classList.toggle('is-hidden', hideCard);
+            grid.classList.toggle('has-single', hideCard)
         }
 
         function sortedNewest(list) {
@@ -1271,18 +1355,16 @@
         function renderAll() {
             const b = partyEvents('bql');
             const c = partyEvents('cdt');
-            const bLastReplyDays = getLastReplyDays(b);
-            const cLastReplyDays = getLastReplyDays(c);
-            document.getElementById('bqlStatus').className = 'status ' + statusClass(b);
-            document.getElementById('bqlStatus').textContent = statusText(b);
-            document.getElementById('cdtStatus').className = 'status ' + statusClass(c);
-            document.getElementById('cdtStatus').textContent = statusText(c);
-            document.getElementById('bqlTotalDays').textContent = totalDays(b);
-            document.getElementById('cdtTotalDays').textContent = totalDays(c);
-            document.getElementById('bqlLastReplyDays').textContent = bLastReplyDays === null ? '--' : bLastReplyDays;
-            document.getElementById('cdtLastReplyDays').textContent = cLastReplyDays === null ? '--' : cLastReplyDays;
-            document.getElementById('bqlLastReplyInfo').textContent = lastReplyInfoText(b);
-            document.getElementById('cdtLastReplyInfo').textContent = lastReplyInfoText(c);
+            const bProcessDays = totalDays(b);
+            const cProcessDays = totalDays(c);
+            const bNoReplyDays = pendingReplyDays(b);
+            const cNoReplyDays = pendingReplyDays(c);
+            renderAgingCard('bqlProcessCard', 'bqlProcessDays', 'bqlProcessState', bProcessDays);
+            renderAgingCard('cdtProcessCard', 'cdtProcessDays', 'cdtProcessState', cProcessDays);
+            renderAgingCard('bqlNoReplyCard', 'bqlNoReplyDays', 'bqlNoReplyState', bNoReplyDays, 'Đã có phản hồi');
+            renderAgingCard('cdtNoReplyCard', 'cdtNoReplyDays', 'cdtNoReplyState', cNoReplyDays, 'Đã có phản hồi');
+            toggleNoReplyCard('bqlAgingGrid', 'bqlNoReplyCard', bNoReplyDays);
+            toggleNoReplyCard('cdtAgingGrid', 'cdtNoReplyCard', cNoReplyDays);
             renderTimeline('bqlTimeline', b);
             renderTimeline('cdtTimeline', c);
             renderGalleryTimeline('all');
