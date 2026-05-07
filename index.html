@@ -385,6 +385,292 @@
             background: #fff
         }
         
+        .media-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 10px
+        }
+        
+        .media-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--email-bg);
+            border: 1px solid var(--border);
+            transition: transform .2s, box-shadow .2s
+        }
+        
+        .media-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .15)
+        }
+        
+        .media-item img,
+        .media-item video {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block
+        }
+        
+        .media-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(0, 0, 0, .6);
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700
+        }
+        
+        .media-link-item {
+            padding: 10px;
+            background: var(--chip-bg);
+            border-radius: 10px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px
+        }
+        
+        .media-link-item a {
+            color: var(--chip-text);
+            text-decoration: none;
+            font-weight: 600
+        }
+        
+        .media-link-item a:hover {
+            text-decoration: underline
+        }
+        
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            padding: 10px
+        }
+        
+        .modal.show {
+            display: flex
+        }
+        
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .3)
+        }
+        
+        .modal-content img,
+        .modal-content video {
+            width: 100%;
+            height: auto;
+            display: block
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, .5);
+            color: #fff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000
+        }
+        
+        .modal-close:hover {
+            background: rgba(0, 0, 0, .7)
+        }
+        
+        .modal-info {
+            padding: 12px;
+            color: var(--text);
+            font-size: 13px;
+            background: var(--item-bg)
+        }
+        
+        .gallery-section {
+            margin-bottom: 20px
+        }
+        
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border)
+        }
+        
+        .gallery-header h2 {
+            margin: 0
+        }
+        
+        .gallery-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px
+        }
+        
+        .gallery-tab {
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            background: var(--item-bg);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all .2s
+        }
+        
+        .gallery-tab:hover {
+            background: var(--border)
+        }
+        
+        .gallery-tab.active {
+            background: var(--cdt);
+            color: #fff;
+            border-color: var(--cdt)
+        }
+        
+        .gallery-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px
+        }
+        
+        .gallery-date-group {
+            border-left: 3px solid var(--cdt);
+            padding-left: 16px
+        }
+        
+        .gallery-date-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--header2);
+            margin-bottom: 12px
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px
+        }
+        
+        .gallery-grid-row {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            gap: 12px;
+            padding-bottom: 6px
+        }
+        
+        .gallery-grid-row .gallery-card {
+            flex: 0 0 170px;
+            width: 170px;
+            min-height: 170px
+        }
+        
+        .gallery-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--item-bg);
+            border: 1px solid var(--border);
+            transition: transform .2s, box-shadow .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px
+        }
+        
+        .gallery-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .2)
+        }
+        
+        .gallery-card img,
+        .gallery-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+        
+        .gallery-card-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, .7);
+            color: #fff;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700
+        }
+        
+        .gallery-card-date {
+            position: absolute;
+            left: 8px;
+            bottom: 8px;
+            background: rgba(0, 0, 0, .7);
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 7px;
+            border-radius: 6px;
+            font-weight: 700
+        }
+        
+        .gallery-link-item {
+            padding: 12px;
+            background: var(--chip-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px
+        }
+        
+        .gallery-link-title {
+            color: var(--chip-text);
+            font-weight: 600;
+            text-decoration: none;
+            flex: 1;
+            word-break: break-word
+        }
+        
+        .gallery-link-title:hover {
+            text-decoration: underline
+        }
+        
+        .gallery-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--muted)
+        }
+        
         .gap {
             margin-top: 8px;
             display: inline-block;
@@ -543,6 +829,18 @@
                 </div>
             </div>
         </section>
+        <section class="gallery-section">
+            <div class="gallery-header">
+                <h2>📎 Thư viện tài liệu bằng chứng</h2>
+                <div class="small" id="mediaCount">0 file</div>
+            </div>
+            <div class="gallery-tabs">
+                <button class="gallery-tab active" data-filter="all">Tất cả</button>
+                <button class="gallery-tab" data-filter="image">📷 Ảnh</button>
+                <button class="gallery-tab" data-filter="video">▶️ Video</button>
+            </div>
+            <div id="galleryContent"></div>
+        </section>
         <section class="columns">
             <div class="panel bql">
                 <h2>Ban Quản Lý</h2>
@@ -556,6 +854,13 @@
             </div>
         </section>
     </main>
+    <div id="mediaModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">✕</button>
+            <div id="modalBody"></div>
+            <div class="modal-info" id="modalInfo"></div>
+        </div>
+    </div>
     <script>
         'use strict';
         const CONFIG = {
@@ -659,6 +964,109 @@
             return '<div class="attachment-box"><strong>File đính kèm:</strong><br><button class="gray" data-pdf-toggle="' + e.id + '">Xem / ẩn PDF</button> <a class="button-link blue" href="' + u + '" target="_blank" rel="noopener">Mở PDF</a><iframe id="pdf-' + e.id + '" class="pdf-viewer" src="' + u + '" style="display:none"></iframe></div>'
         }
 
+        function renderMediaGallery(e) {
+            if (!e.attachments || !Array.isArray(e.attachments) || e.attachments.length === 0) return '';
+            const images = e.attachments.filter(a => a.type === 'image');
+            const videos = e.attachments.filter(a => a.type === 'video');
+            const links = e.attachments.filter(a => a.type === 'link');
+            let html = '<div class="attachment-box"><strong>📎 Tài liệu đính kèm:</strong>';
+            if (images.length > 0 || videos.length > 0) {
+                html += '<div class="media-gallery">';
+                images.forEach(m => {
+                    html += '<div class="media-item" data-media-open="' + e.id + '" data-media-type="image" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Hình ảnh') + '" data-media-date="' + escapeHtml(m.date || e.date) + '">';
+                    html += '<img src="' + escapeHtml(m.url) + '" alt="' + escapeHtml(m.title || 'Hình ảnh') + '" />';
+                    html += '<div class="media-badge">📷</div>';
+                    html += '</div>'
+                });
+                videos.forEach(m => {
+                    html += '<div class="media-item" data-media-open="' + e.id + '" data-media-type="video" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Video') + '" data-media-date="' + escapeHtml(m.date || e.date) + '">';
+                    html += '<video><source src="' + escapeHtml(m.url) + '" type="video/mp4"></video>';
+                    html += '<div class="media-badge">▶️</div>';
+                    html += '</div>'
+                });
+                html += '</div>'
+            }
+            if (links.length > 0) {
+                links.forEach(m => {
+                    html += '<div class="media-link-item"><a href="' + escapeHtml(m.url) + '" target="_blank" rel="noopener">🔗 ' + escapeHtml(m.title || 'Link tài liệu') + '</a></div>'
+                })
+            }
+            html += '</div>';
+            return html
+        }
+
+        function getAllMediaItems() {
+            const galleryData = window.galleryData || [];
+            const filtered = galleryData.filter(m => m.type === 'image' || m.type === 'video');
+            return filtered.sort((a, b) => parseDate(b.date) - parseDate(a.date))
+        }
+
+        function renderGalleryTimeline(filter) {
+            const allMedia = getAllMediaItems();
+            const filtered = filter === 'all' ? allMedia : allMedia.filter(m => m.type === filter);
+            const container = document.getElementById('galleryContent');
+            const countEl = document.getElementById('mediaCount');
+            countEl.textContent = filtered.length + ' file';
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="gallery-empty">Chưa có tài liệu đính kèm</div>';
+                return
+            }
+
+            if (filter === 'all') {
+                let htmlAll = '<div class="gallery-grid gallery-grid-row">';
+                filtered.forEach(m => {
+                    const mediaDate = m.date || m.eventDate;
+                    if (m.type === 'image') {
+                        htmlAll += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="image" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Hình ảnh') + '">';
+                        htmlAll += '<img src="' + escapeHtml(m.url) + '" alt="' + escapeHtml(m.title || 'Hình ảnh') + '" />';
+                        htmlAll += '<div class="gallery-card-badge">📷</div>';
+                        htmlAll += '<div class="gallery-card-date">' + formatDate(mediaDate) + '</div>';
+                        htmlAll += '</div>'
+                    } else if (m.type === 'video') {
+                        htmlAll += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="video" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Video') + '">';
+                        htmlAll += '<video><source src="' + escapeHtml(m.url) + '" type="video/mp4"></video>';
+                        htmlAll += '<div class="gallery-card-badge">▶️</div>';
+                        htmlAll += '<div class="gallery-card-date">' + formatDate(mediaDate) + '</div>';
+                        htmlAll += '</div>'
+                    }
+                });
+                htmlAll += '</div>';
+                container.innerHTML = htmlAll;
+                return
+            }
+
+            const grouped = {};
+            filtered.forEach(m => {
+                const date = m.date || m.eventDate;
+                if (!grouped[date]) grouped[date] = [];
+                grouped[date].push(m)
+            });
+            const sortedDates = Object.keys(grouped).sort().reverse();
+            let html = '<div class="gallery-timeline">';
+            sortedDates.forEach(date => {
+                const rowClass = filter === 'all' ? 'gallery-grid gallery-grid-row' : 'gallery-grid';
+                html += '<div class="gallery-date-group">';
+                html += '<div class="gallery-date-label">' + formatDate(date) + '</div>';
+                html += '<div class="' + rowClass + '">';
+                grouped[date].forEach(m => {
+                    if (m.type === 'image') {
+                        html += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="image" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Hình ảnh') + '">';
+                        html += '<img src="' + escapeHtml(m.url) + '" alt="' + escapeHtml(m.title || 'Hình ảnh') + '" />';
+                        html += '<div class="gallery-card-badge">📷</div>';
+                        html += '</div>'
+                    } else if (m.type === 'video') {
+                        html += '<div class="gallery-card" data-media-open-gallery="true" data-media-type="video" data-media-url="' + escapeHtml(m.url) + '" data-media-title="' + escapeHtml(m.title || 'Video') + '">';
+                        html += '<video><source src="' + escapeHtml(m.url) + '" type="video/mp4"></video>';
+                        html += '<div class="gallery-card-badge">▶️</div>';
+                        html += '</div>'
+                    }
+                });
+                html += '</div></div>'
+            });
+            html += '</div>';
+            container.innerHTML = html
+        }
+
         function renderTimeline(id, list) {
             const c = document.getElementById(id);
             const s = sortedNewest(list);
@@ -686,20 +1094,20 @@
             document.getElementById('bqlTotalDays').textContent = totalDays(b);
             document.getElementById('cdtTotalDays').textContent = totalDays(c);
             renderTimeline('bqlTimeline', b);
-            renderTimeline('cdtTimeline', c)
+            renderTimeline('cdtTimeline', c);
+            renderGalleryTimeline('all');
         }
 
         function loadData() {
-            fetch(CONFIG.dataPath + '?v=' + Date.now(), {
-                cache: 'no-store'
-            }).then(res => {
-                if (!res.ok) throw new Error('no data');
-                return res.json()
-            }).then(data => {
+            fetch('data.json').then(r => r.json()).catch(() => ({
+                events: []
+            })).then(data => {
                 events = Array.isArray(data.events) ? data.events : [];
-                renderAll()
-            }).catch(() => {
-                events = [];
+                return fetch('gallery.json').then(r => r.json()).catch(() => ({
+                    gallery: []
+                }))
+            }).then(gdata => {
+                window.galleryData = Array.isArray(gdata.gallery) ? gdata.gallery : [];
                 renderAll()
             })
         }
@@ -721,6 +1129,10 @@
         document.addEventListener('click', e => {
             const pdf = e.target.getAttribute('data-pdf-toggle');
             const detail = e.target.getAttribute('data-detail-toggle');
+            const mediaOpen = e.target.getAttribute('data-media-open');
+            const galleryTab = e.target.getAttribute('data-filter');
+            const galleryMediaOpen = e.target.getAttribute('data-media-open-gallery') || e.target.closest('[data-media-open-gallery]') ? .getAttribute('data-media-open-gallery');
+
             if (pdf) {
                 const v = document.getElementById('pdf-' + pdf);
                 if (v) v.style.display = v.style.display === 'none' ? 'block' : 'none'
@@ -731,6 +1143,51 @@
                     item.classList.toggle('collapsed');
                     e.target.textContent = item.classList.contains('collapsed') ? 'Xem chi tiết' : 'Thu gọn';
                 }
+            }
+            if (mediaOpen) {
+                const mediaType = e.target.getAttribute('data-media-type');
+                const mediaUrl = e.target.getAttribute('data-media-url');
+                const mediaTitle = e.target.getAttribute('data-media-title');
+                const mediaDate = e.target.getAttribute('data-media-date');
+                const modal = document.getElementById('mediaModal');
+                const modalBody = document.getElementById('modalBody');
+                const modalInfo = document.getElementById('modalInfo');
+                if (mediaType === 'image') {
+                    modalBody.innerHTML = '<img src="' + escapeHtml(mediaUrl) + '" alt="' + escapeHtml(mediaTitle) + '" />'
+                } else if (mediaType === 'video') {
+                    modalBody.innerHTML = '<video controls style="width:100%;height:auto"><source src="' + escapeHtml(mediaUrl) + '" type="video/mp4"></video>'
+                }
+                modalInfo.textContent = mediaTitle + ' · ' + formatDate(mediaDate);
+                modal.classList.add('show')
+            }
+            if (galleryTab) {
+                e.preventDefault();
+                document.querySelectorAll('.gallery-tab').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                renderGalleryTimeline(galleryTab);
+            }
+            if (galleryMediaOpen) {
+                const card = e.target.closest('[data-media-open-gallery]');
+                if (!card) return;
+                const mediaType = card.getAttribute('data-media-type');
+                const mediaUrl = card.getAttribute('data-media-url');
+                const mediaTitle = card.getAttribute('data-media-title');
+                const modal = document.getElementById('mediaModal');
+                const modalBody = document.getElementById('modalBody');
+                const modalInfo = document.getElementById('modalInfo');
+                if (mediaType === 'image') {
+                    modalBody.innerHTML = '<img src="' + escapeHtml(mediaUrl) + '" alt="' + escapeHtml(mediaTitle) + '" />'
+                } else if (mediaType === 'video') {
+                    modalBody.innerHTML = '<video controls style="width:100%;height:auto"><source src="' + escapeHtml(mediaUrl) + '" type="video/mp4"></video>'
+                }
+                modalInfo.textContent = mediaTitle;
+                modal.classList.add('show')
+            }
+        });
+
+        document.getElementById('mediaModal').addEventListener('click', e => {
+            if (e.target.id === 'mediaModal' || e.target.id === 'modalClose') {
+                document.getElementById('mediaModal').classList.remove('show')
             }
         });
         document.addEventListener('DOMContentLoaded', () => {

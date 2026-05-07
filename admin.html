@@ -433,6 +433,38 @@
             margin-top: 12px
         }
         
+        .feature-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 14px 0 16px;
+            overflow-x: auto
+        }
+        
+        .feature-tab {
+            border: 1px solid var(--border);
+            background: var(--item-bg);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap
+        }
+        
+        .feature-tab.active {
+            background: var(--cdt);
+            border-color: var(--cdt);
+            color: #fff
+        }
+        
+        .feature-panel {
+            display: none
+        }
+        
+        .feature-panel.active {
+            display: block
+        }
+        
         button,
         .button-link {
             border: 0;
@@ -553,7 +585,12 @@
                 <div class="actions"><button class="blue" id="loginButton">Nhập GitHub Token</button><button class="gray" onclick="location.href='index.html'">Về trang xem</button></div>
                 <p class="small">Token cần quyền <strong>Contents: Read and Write</strong> cho repo này. Không chia sẻ token cho người khác.</p>
             </section>
-            <section class="card">
+            <div class="feature-tabs">
+                <button type="button" class="feature-tab active" data-feature-tab="email">Cập nhật Email</button>
+                <button type="button" class="feature-tab" data-feature-tab="gallery">Quản lý Gallery</button>
+                <button type="button" class="feature-tab" data-feature-tab="data">Dữ liệu hiện tại</button>
+            </div>
+            <section class="card feature-panel active" data-feature-panel="email">
                 <h2>Cập nhật nội dung email / phản hồi</h2>
                 <div class="form-grid">
                     <div><label for="party">Bên liên quan</label><select id="party"><option value="bql">BQL</option><option value="cdt">CĐT</option></select></div>
@@ -565,7 +602,22 @@
                 </div>
                 <div class="actions"><button class="green" id="saveButton">Thêm vào timeline</button><button class="blue" id="commitButton">Commit data.json lên GitHub</button><button class="gray" id="exportButton">Tải data.json</button><button class="red" id="clearButton">Xóa form</button></div>
             </section>
-            <section class="card">
+            <section class="card feature-panel" data-feature-panel="gallery">
+                <h2>Quản lý Video / Hình Ảnh (gallery.json)</h2>
+                <div class="form-grid">
+                    <div><label for="mediaType">Loại tài liệu</label><select id="mediaType"><option value="image">Hình ảnh</option><option value="video">Video</option></select></div>
+                    <div><label for="mediaDate">Ngày chụp / upload</label><input type="date" id="mediaDate" /></div>
+                    <div class="full"><label for="mediaUrl">Link ảnh / video</label><input id="mediaUrl" placeholder="VD: https://.../file.jpg hoặc .../file.mp4" /></div>
+                    <div class="full"><label for="mediaTitle">Tiêu đề / tên file</label><input id="mediaTitle" placeholder="VD: Camera cổng chính - ca đêm" /></div>
+                    <div class="actions">
+                        <button type="button" class="green" id="addMediaButton">Thêm vào gallery</button>
+                        <button type="button" class="gray" id="clearMediaButton">Xóa trường media</button>
+                    </div>
+                    <div id="mediaList"></div>
+                </div>
+                <div class="actions"><button class="blue" id="commitGalleryButton">Commit gallery.json lên GitHub</button><button class="gray" id="exportGalleryButton">Tải gallery.json</button></div>
+            </section>
+            <section class="card feature-panel" data-feature-panel="data">
                 <h2>Dữ liệu hiện tại</h2>
                 <div id="list"></div>
             </section>
@@ -577,13 +629,16 @@
             owner: 'phuocttran8x',
             repo: 'wtp',
             branch: 'main',
-            dataPath: 'data.json'
+            dataPath: 'data.json',
+            galleryPath: 'gallery.json'
         };
         const ADMIN_PASSWORD_HASH = 'dc262188aa16565fe7542851fe416d55c58e8156c0b10924ba83c96d2d3a738f';
         let events = [],
+            galleryItems = [],
             githubToken = '',
             editingId = null,
-            currentDataSha = null;
+            currentDataSha = null,
+            currentGallerySha = null;
         async function sha256(text) {
             const data = new TextEncoder().encode(text);
             const buf = await crypto.subtle.digest('SHA-256', data);
@@ -627,14 +682,16 @@
             el.className = 'status ' + cls
         }
 
-        function githubApiUrl() {
-            return 'https://api.github.com/repos/' + CONFIG.owner + '/' + CONFIG.repo + '/contents/' + CONFIG.dataPath
+        function githubApiUrl(path) {
+            return 'https://api.github.com/repos/' + CONFIG.owner + '/' + CONFIG.repo + '/contents/' + path
         }
 
         function encodeBase64Unicode(str) {
             return btoa(unescape(encodeURIComponent(str)))
         }
         async function loadData() {
+            let dataLoaded = false;
+            let galleryLoaded = false;
             try {
                 const res = await fetch(CONFIG.dataPath + '?v=' + Date.now(), {
                     cache: 'no-store'
@@ -642,17 +699,39 @@
                 if (!res.ok) throw new Error('data.json chưa tồn tại');
                 const data = await res.json();
                 events = Array.isArray(data.events) ? data.events : [];
-                setStatus('Đã tải data.json', 'online')
+                dataLoaded = true;
             } catch (e) {
                 events = [];
                 setStatus('Không tải được data.json: ' + e.message, 'offline')
             }
-            renderList()
+
+            try {
+                const gres = await fetch(CONFIG.galleryPath + '?v=' + Date.now(), {
+                    cache: 'no-store'
+                });
+                if (!gres.ok) throw new Error('gallery.json chưa tồn tại');
+                const gdata = await gres.json();
+                galleryItems = Array.isArray(gdata.gallery) ? gdata.gallery : [];
+                galleryLoaded = true;
+            } catch (e) {
+                galleryItems = [];
+                if (dataLoaded) {
+                    setStatus('Đã tải data.json, lỗi gallery.json: ' + e.message, 'waiting')
+                }
+            }
+
+            if (dataLoaded && galleryLoaded) {
+                setStatus('Đã tải data.json + gallery.json', 'online')
+            }
+            renderList();
+            renderMediaList()
         }
 
         function renderList() {
             const sorted = events.slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
-            document.getElementById('list').innerHTML = sorted.map(e => '<div class="item"><div class="item-title">' + escapeHtml(e.title) + '</div><div class="meta">' + escapeHtml(e.date) + ' · ' + escapeHtml(e.party) + ' · ' + escapeHtml(e.type) + '</div><div class="small">' + escapeHtml((e.content || '').slice(0, 220)) + '</div><div class="actions"><button class="gray" data-edit="' + e.id + '">Sửa</button><button class="red" data-delete="' + e.id + '">Xóa</button></div></div>').join('') || '<p class="small">Chưa có dữ liệu.</p>'
+            document.getElementById('list').innerHTML = sorted.map(e => {
+                return '<div class="item"><div class="item-title">' + escapeHtml(e.title) + '</div><div class="meta">' + escapeHtml(e.date) + ' · ' + escapeHtml(e.party) + ' · ' + escapeHtml(e.type) + '</div><div class="small">' + escapeHtml((e.content || '').slice(0, 220)) + '</div><div class="actions"><button class="gray" data-edit="' + e.id + '">Sửa</button><button class="red" data-delete="' + e.id + '">Xóa</button></div></div>';
+            }).join('') || '<p class="small">Chưa có dữ liệu.</p>';
         }
 
         function login() {
@@ -663,6 +742,46 @@
             setStatus('Đã nhập token. Có thể commit dữ liệu.', 'online')
         }
 
+        function clearMediaForm() {
+            document.getElementById('mediaType').value = 'image';
+            document.getElementById('mediaUrl').value = '';
+            document.getElementById('mediaTitle').value = '';
+            document.getElementById('mediaDate').value = todayString();
+        }
+
+        function renderMediaList() {
+            const list = document.getElementById('mediaList');
+            const mediaOnly = galleryItems.filter(m => m.type === 'image' || m.type === 'video');
+            if (mediaOnly.length === 0) {
+                list.innerHTML = '<p class="small">Chưa có media trong gallery.json</p>';
+                return;
+            }
+            list.innerHTML = '<div class="small" style="margin-bottom:10px"><strong>Danh sách media (' + mediaOnly.length + '):</strong></div>' + mediaOnly.slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).map(m => {
+                const icon = m.type === 'image' ? '📷' : '▶️';
+                return '<div class="item"><div class="item-title">' + icon + ' ' + escapeHtml(m.title || 'Không có tiêu đề') + '</div><div class="meta">' + escapeHtml(m.type) + ' · ' + escapeHtml(m.date) + '</div><div class="small">' + escapeHtml(m.url.slice(0, 60)) + '...</div><div class="actions"><button type="button" class="gray" data-remove-media="' + escapeHtml(m.id) + '">Xóa</button></div></div>';
+            }).join('') + '<div class="actions" style="margin-top:12px"><button type="button" class="red" id="clearAllMediaButton">Xóa tất cả file</button></div>';
+        }
+
+        function addMedia() {
+            const type = document.getElementById('mediaType').value;
+            const url = document.getElementById('mediaUrl').value.trim();
+            const title = document.getElementById('mediaTitle').value.trim();
+            const date = document.getElementById('mediaDate').value || todayString();
+            if (!url) return alert('Vui lòng nhập link ảnh/video');
+            if (!title) return alert('Vui lòng nhập tiêu đề');
+            if (!(type === 'image' || type === 'video')) return alert('Chỉ hỗ trợ Hình ảnh hoặc Video');
+            galleryItems.push({
+                id: 'g-' + Date.now() + '-' + Math.random().toString(16).slice(2),
+                type,
+                url,
+                title,
+                date
+            });
+            clearMediaForm();
+            renderMediaList();
+            setStatus('Đã thêm media vào gallery cục bộ. Bấm Commit gallery.json để public.', 'waiting');
+        }
+
         function clearForm() {
             editingId = null;
             document.getElementById('saveButton').textContent = 'Thêm vào timeline';
@@ -671,7 +790,7 @@
             document.getElementById('date').value = todayString();
             document.getElementById('title').value = '';
             document.getElementById('content').value = '';
-            document.getElementById('pdfUrl').value = ''
+            document.getElementById('pdfUrl').value = '';
         }
 
         function saveLocal() {
@@ -682,30 +801,24 @@
                 content = document.getElementById('content').value.trim(),
                 attachmentUrl = document.getElementById('pdfUrl').value.trim();
             if (!date || !title || (!content && !attachmentUrl)) return alert('Vui lòng nhập đủ ngày, tiêu đề và nội dung/link PDF.');
+            const newEvent = {
+                id: editingId || createId(),
+                party,
+                type,
+                date,
+                title,
+                content,
+                attachmentUrl
+            };
             if (editingId) {
                 const idx = events.findIndex(e => e.id === editingId);
-                if (idx >= 0) events[idx] = {...events[idx],
-                    party,
-                    type,
-                    date,
-                    title,
-                    content,
-                    attachmentUrl
-                }
+                if (idx >= 0) events[idx] = newEvent;
             } else {
-                events.push({
-                    id: createId(),
-                    party,
-                    type,
-                    date,
-                    title,
-                    content,
-                    attachmentUrl
-                })
+                events.push(newEvent);
             }
             clearForm();
             renderList();
-            setStatus('Đã cập nhật trên trình duyệt. Bấm Commit để public.', 'waiting')
+            setStatus('Đã cập nhật email trên trình duyệt. Bấm Commit data.json để public.', 'waiting');
         }
 
         function editEvent(id) {
@@ -729,52 +842,82 @@
             if (!confirm('Xóa mục này?')) return;
             events = events.filter(e => e.id !== id);
             renderList();
-            setStatus('Đã xóa trên trình duyệt. Bấm Commit để public.', 'waiting')
+            setStatus('Đã xóa email trên trình duyệt. Bấm Commit data.json để public.', 'waiting')
         }
-        async function loadSha() {
-            const res = await fetch(githubApiUrl() + '?ref=' + encodeURIComponent(CONFIG.branch), {
+        async function loadSha(path) {
+            const res = await fetch(githubApiUrl(path) + '?ref=' + encodeURIComponent(CONFIG.branch), {
                 headers: {
                     Authorization: 'Bearer ' + githubToken,
                     Accept: 'application/vnd.github+json'
                 }
             });
             if (res.status === 404) {
-                currentDataSha = null;
-                return
+                return null
             }
             if (!res.ok) throw new Error(await res.text());
             const data = await res.json();
-            currentDataSha = data.sha
+            return data.sha
+        }
+
+        async function commitFile(path, content, sha, message) {
+            const body = {
+                message,
+                content: encodeBase64Unicode(content),
+                branch: CONFIG.branch
+            };
+            if (sha) body.sha = sha;
+            const res = await fetch(githubApiUrl(path), {
+                method: 'PUT',
+                headers: {
+                    Authorization: 'Bearer ' + githubToken,
+                    Accept: 'application/vnd.github+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            if (!res.ok) throw new Error(await res.text());
+            const out = await res.json();
+            return out.content.sha
         }
         async function commitData() {
             if (!githubToken) return alert('Vui lòng nhập GitHub token trước.');
             if (CONFIG.owner === 'YOUR_GITHUB_USERNAME') return alert('Vui lòng cấu hình owner/repo trong admin.html.');
             try {
                 setStatus('Đang commit data.json...', 'waiting');
-                await loadSha();
-                const body = {
-                    message: 'Update Waterpoint timeline data',
-                    content: encodeBase64Unicode(JSON.stringify({
+                currentDataSha = await loadSha(CONFIG.dataPath);
+                currentDataSha = await commitFile(
+                    CONFIG.dataPath,
+                    JSON.stringify({
                         updatedAt: new Date().toISOString(),
                         events
-                    }, null, 2)),
-                    branch: CONFIG.branch
-                };
-                if (currentDataSha) body.sha = currentDataSha;
-                const res = await fetch(githubApiUrl(), {
-                    method: 'PUT',
-                    headers: {
-                        Authorization: 'Bearer ' + githubToken,
-                        Accept: 'application/vnd.github+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(body)
-                });
-                if (!res.ok) throw new Error(await res.text());
-                const out = await res.json();
-                currentDataSha = out.content.sha;
+                    }, null, 2),
+                    currentDataSha,
+                    'Update Waterpoint timeline data'
+                );
                 setStatus('Đã commit data.json lên GitHub.', 'online');
                 alert('Đã commit thành công.')
+            } catch (e) {
+                setStatus('Commit lỗi: ' + e.message, 'offline');
+                alert('Commit lỗi: ' + e.message)
+            }
+        }
+
+        async function commitGallery() {
+            if (!githubToken) return alert('Vui lòng nhập GitHub token trước.');
+            if (CONFIG.owner === 'YOUR_GITHUB_USERNAME') return alert('Vui lòng cấu hình owner/repo trong admin.html.');
+            try {
+                setStatus('Đang commit gallery.json...', 'waiting');
+                currentGallerySha = await loadSha(CONFIG.galleryPath);
+                currentGallerySha = await commitFile(
+                    CONFIG.galleryPath,
+                    JSON.stringify({
+                        gallery: galleryItems
+                    }, null, 2),
+                    currentGallerySha,
+                    'Update Waterpoint gallery data'
+                );
+                setStatus('Đã commit gallery.json lên GitHub.', 'online');
+                alert('Đã commit gallery.json thành công.')
             } catch (e) {
                 setStatus('Commit lỗi: ' + e.message, 'offline');
                 alert('Commit lỗi: ' + e.message)
@@ -798,6 +941,22 @@
             URL.revokeObjectURL(url)
         }
 
+        function exportGalleryJson() {
+            const blob = new Blob([JSON.stringify({
+                gallery: galleryItems
+            }, null, 2)], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'gallery.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url)
+        }
+
         function applyTheme() {
             const saved = localStorage.getItem('waterpoint_theme');
             const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -812,11 +971,38 @@
             localStorage.setItem('waterpoint_theme', dark ? 'dark' : 'light');
             applyTheme()
         }
+
+        function setFeatureTab(tabName) {
+            document.querySelectorAll('.feature-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-feature-tab') === tabName)
+            });
+            document.querySelectorAll('.feature-panel').forEach(panel => {
+                panel.classList.toggle('active', panel.getAttribute('data-feature-panel') === tabName)
+            })
+        }
+
         document.addEventListener('click', e => {
             const edit = e.target.getAttribute('data-edit'),
-                del = e.target.getAttribute('data-delete');
+                del = e.target.getAttribute('data-delete'),
+                removeMedia = e.target.getAttribute('data-remove-media'),
+                featureTab = e.target.getAttribute('data-feature-tab');
             if (edit) editEvent(edit);
-            if (del) deleteEvent(del)
+            if (del) deleteEvent(del);
+            if (featureTab) setFeatureTab(featureTab);
+            if (e.target.id === 'clearAllMediaButton') {
+                if (confirm('Xóa tất cả file media?')) {
+                    galleryItems = galleryItems.filter(m => !(m.type === 'image' || m.type === 'video'));
+                    renderMediaList();
+                    setStatus('Đã xóa toàn bộ image/video cục bộ. Bấm Commit gallery.json để public.', 'waiting');
+                }
+            }
+            if (removeMedia !== null) {
+                const idx = galleryItems.findIndex(m => m.id === removeMedia);
+                if (idx >= 0) {
+                    galleryItems.splice(idx, 1);
+                    renderMediaList();
+                }
+            }
         });
         document.addEventListener('DOMContentLoaded', () => {
             applyTheme();
@@ -827,10 +1013,15 @@
                 if (e.key === 'Enter') unlockAdmin()
             });
             document.getElementById('date').value = todayString();
+            document.getElementById('mediaDate').value = todayString();
             document.getElementById('loginButton').addEventListener('click', login);
             document.getElementById('saveButton').addEventListener('click', saveLocal);
+            document.getElementById('addMediaButton').addEventListener('click', addMedia);
+            document.getElementById('clearMediaButton').addEventListener('click', clearMediaForm);
             document.getElementById('commitButton').addEventListener('click', commitData);
+            document.getElementById('commitGalleryButton').addEventListener('click', commitGallery);
             document.getElementById('exportButton').addEventListener('click', exportJson);
+            document.getElementById('exportGalleryButton').addEventListener('click', exportGalleryJson);
             document.getElementById('clearButton').addEventListener('click', clearForm);
             loadData()
         });

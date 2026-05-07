@@ -1,0 +1,35 @@
+{
+    "gallery": [{
+            "id": "g-1",
+            "type": "image",
+            "url": "https://via.placeholder.com/400x300?text=Evidence+Photo+1",
+            "title": "Hình ảnh chứng minh - Báo cáo vận hành ngày 05/05/2026",
+            "date": "2026-05-06",
+            "eventId": "e-1778043987269-166f5678bdd5a8"
+        },
+        {
+            "id": "g-2",
+            "type": "image",
+            "url": "https://via.placeholder.com/400x300?text=Evidence+Photo+2",
+            "title": "Hình ảnh chứng minh - Tình trạng hạ tầng",
+            "date": "2026-05-06",
+            "eventId": "e-1778043987269-166f5678bdd5a8"
+        },
+        {
+            "id": "g-3",
+            "type": "video",
+            "url": "https://commondatastorage.googleapis.com/gtv-videos-library/sample/big_buck_bunny.mp4",
+            "title": "Video ghi nhận tình trạng bảo vệ - 04/05/2026",
+            "date": "2026-05-04",
+            "eventId": "e-1778043987269-166f5678bdd5a8"
+        },
+        {
+            "id": "g-4",
+            "type": "link",
+            "url": "https://docs.google.com/document/d/example",
+            "title": "Báo cáo chi tiết - Google Docs",
+            "date": "2026-05-06",
+            "eventId": "e-1778043987269-166f5678bdd5a8"
+        }
+    ]
+}
