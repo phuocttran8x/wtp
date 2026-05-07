@@ -858,6 +858,7 @@
                     <div>
                         <h3>Ban Quản Lý</h3><span class="status" id="bqlStatus">Đang tải</span>
                         <div class="small">Từ email đầu tiên đến hôm nay</div>
+                        <div class="small" id="bqlLastReplyInfo">Đang tải phản hồi gần nhất</div>
                     </div>
                     <div>
                         <div class="big-number" id="bqlTotalDays">0</div>
@@ -870,6 +871,7 @@
                     <div>
                         <h3>Chủ Đầu Tư</h3><span class="status" id="cdtStatus">Đang tải</span>
                         <div class="small">Từ email đầu tiên đến hôm nay</div>
+                        <div class="small" id="cdtLastReplyInfo">Đang tải phản hồi gần nhất</div>
                     </div>
                     <div>
                         <div class="big-number" id="cdtTotalDays">0</div>
@@ -998,6 +1000,13 @@
             if (!list.length) return 0;
             const oldest = list.slice().sort((a, b) => parseDate(a.date) - parseDate(b.date))[0];
             return diffDays(oldest.date)
+        }
+
+        function lastReplyInfoText(list) {
+            const replies = list.filter(e => e.type === 'reply' || e.type === 'done');
+            if (!replies.length) return 'Phản hồi gần nhất: chưa có';
+            const latest = replies.slice().sort((a, b) => parseDate(b.date) - parseDate(a.date))[0];
+            return 'Phản hồi gần nhất: ' + diffDays(latest.date) + ' ngày trước'
         }
 
         function sortedNewest(list) {
@@ -1146,7 +1155,7 @@
                 return
             }
 
-            if (filter === 'all') {
+            if (filter === 'all' || filter === 'video') {
                 let htmlAll = '<div class="gallery-grid gallery-grid-row">';
                 filtered.forEach(m => {
                     const mediaDate = m.date || m.eventDate;
@@ -1216,6 +1225,8 @@
             document.getElementById('cdtStatus').textContent = statusText(c);
             document.getElementById('bqlTotalDays').textContent = totalDays(b);
             document.getElementById('cdtTotalDays').textContent = totalDays(c);
+            document.getElementById('bqlLastReplyInfo').textContent = lastReplyInfoText(b);
+            document.getElementById('cdtLastReplyInfo').textContent = lastReplyInfoText(c);
             renderTimeline('bqlTimeline', b);
             renderTimeline('cdtTimeline', c);
             renderGalleryTimeline('all');
