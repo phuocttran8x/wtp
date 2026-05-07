@@ -168,6 +168,40 @@
             font-size: 14px
         }
         
+        .reply-lag {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--item-bg);
+            display: inline-flex;
+            align-items: baseline;
+            gap: 8px
+        }
+        
+        .reply-lag-value {
+            font-size: 34px;
+            line-height: 1;
+            font-weight: 900;
+            color: var(--warning);
+            letter-spacing: -.02em
+        }
+        
+        .reply-lag-label {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em
+        }
+        
+        .reply-lag-text {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600
+        }
+        
         .status {
             display: inline-block;
             padding: 5px 10px;
@@ -858,7 +892,13 @@
                     <div>
                         <h3>Ban Quản Lý</h3><span class="status" id="bqlStatus">Đang tải</span>
                         <div class="small">Từ email đầu tiên đến hôm nay</div>
-                        <div class="small" id="bqlLastReplyInfo">Đang tải phản hồi gần nhất</div>
+                        <div class="reply-lag">
+                            <div class="reply-lag-value" id="bqlLastReplyDays">--</div>
+                            <div>
+                                <div class="reply-lag-label">Ngày trễ</div>
+                                <div class="reply-lag-text" id="bqlLastReplyInfo">Đang tải phản hồi gần nhất</div>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <div class="big-number" id="bqlTotalDays">0</div>
@@ -871,7 +911,13 @@
                     <div>
                         <h3>Chủ Đầu Tư</h3><span class="status" id="cdtStatus">Đang tải</span>
                         <div class="small">Từ email đầu tiên đến hôm nay</div>
-                        <div class="small" id="cdtLastReplyInfo">Đang tải phản hồi gần nhất</div>
+                        <div class="reply-lag">
+                            <div class="reply-lag-value" id="cdtLastReplyDays">--</div>
+                            <div>
+                                <div class="reply-lag-label">Ngày trễ</div>
+                                <div class="reply-lag-text" id="cdtLastReplyInfo">Đang tải phản hồi gần nhất</div>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <div class="big-number" id="cdtTotalDays">0</div>
@@ -1002,11 +1048,17 @@
             return diffDays(oldest.date)
         }
 
-        function lastReplyInfoText(list) {
+        function getLastReplyDays(list) {
             const replies = list.filter(e => e.type === 'reply' || e.type === 'done');
-            if (!replies.length) return 'Phản hồi gần nhất: chưa có';
+            if (!replies.length) return null;
             const latest = replies.slice().sort((a, b) => parseDate(b.date) - parseDate(a.date))[0];
-            return 'Phản hồi gần nhất: ' + diffDays(latest.date) + ' ngày trước'
+            return diffDays(latest.date)
+        }
+
+        function lastReplyInfoText(list) {
+            const days = getLastReplyDays(list);
+            if (days === null) return 'Chưa có phản hồi';
+            return 'Phản hồi gần nhất'
         }
 
         function sortedNewest(list) {
@@ -1225,6 +1277,8 @@
             document.getElementById('cdtStatus').textContent = statusText(c);
             document.getElementById('bqlTotalDays').textContent = totalDays(b);
             document.getElementById('cdtTotalDays').textContent = totalDays(c);
+            document.getElementById('bqlLastReplyDays').textContent = getLastReplyDays(b) === null ? '--' : getLastReplyDays(b);
+            document.getElementById('cdtLastReplyDays').textContent = getLastReplyDays(c) === null ? '--' : getLastReplyDays(c);
             document.getElementById('bqlLastReplyInfo').textContent = lastReplyInfoText(b);
             document.getElementById('cdtLastReplyInfo').textContent = lastReplyInfoText(c);
             renderTimeline('bqlTimeline', b);
