@@ -1,35 +1,26 @@
 {
-    "gallery": [{
-            "id": "g-1",
-            "type": "image",
-            "url": "https://via.placeholder.com/400x300?text=Evidence+Photo+1",
-            "title": "Hình ảnh chứng minh - Báo cáo vận hành ngày 05/05/2026",
-            "date": "2026-05-06",
-            "eventId": "e-1778043987269-166f5678bdd5a8"
-        },
-        {
-            "id": "g-2",
-            "type": "image",
-            "url": "https://via.placeholder.com/400x300?text=Evidence+Photo+2",
-            "title": "Hình ảnh chứng minh - Tình trạng hạ tầng",
-            "date": "2026-05-06",
-            "eventId": "e-1778043987269-166f5678bdd5a8"
-        },
-        {
-            "id": "g-3",
-            "type": "video",
-            "url": "https://commondatastorage.googleapis.com/gtv-videos-library/sample/big_buck_bunny.mp4",
-            "title": "Video ghi nhận tình trạng bảo vệ - 04/05/2026",
-            "date": "2026-05-04",
-            "eventId": "e-1778043987269-166f5678bdd5a8"
-        },
-        {
-            "id": "g-4",
-            "type": "link",
-            "url": "https://docs.google.com/document/d/example",
-            "title": "Báo cáo chi tiết - Google Docs",
-            "date": "2026-05-06",
-            "eventId": "e-1778043987269-166f5678bdd5a8"
-        }
-    ]
+  "gallery": [
+    {
+      "id": "g-4",
+      "type": "link",
+      "url": "https://docs.google.com/document/d/example",
+      "title": "Báo cáo chi tiết - Google Docs",
+      "date": "2026-05-06",
+      "eventId": "e-1778043987269-166f5678bdd5a8"
+    },
+    {
+      "id": "g-1778119553128-b2470bfecec0c8",
+      "type": "video",
+      "url": "https://alphanetworksglobal-my.sharepoint.com/:v:/g/personal/phuoc_tran_alphanetworks_global/IQANvM6FY1tsT7aBKwO5qCAgAa5ZRwlcMN7_7rg3NHbxHv8?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=IX2II9",
+      "title": "Đơn vị thi công làm hư hỏng hạ tầng",
+      "date": "2026-05-07"
+    },
+    {
+      "id": "g-1778119656480-68c6cb3f615528",
+      "type": "image",
+      "url": "https://alphanetworksglobal-my.sharepoint.com/:v:/g/personal/phuoc_tran_alphanetworks_global/IQDO3PjH54pZQLgjhLpygSzUAVjBQ9CmdvnETUmmtBlLB_w?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=0UliJA",
+      "title": "Bảo vệ đã được đào tạo như CDT đã phản hồi?",
+      "date": "2026-05-07"
+    }
+  ]
 }
