@@ -1177,10 +1177,11 @@
                 html += '<div class="' + rowClass + '">';
                 grouped[date].forEach(m => {
                     const mediaType = getMediaType(m);
+                    const mediaDate = m.date || m.eventDate;
                     if (mediaType === 'image') {
-                        html += getImageCardHtml(m, null)
+                        html += getImageCardHtml(m, mediaDate)
                     } else if (mediaType === 'video') {
-                        html += getVideoCardHtml(m, null)
+                        html += getVideoCardHtml(m, mediaDate)
                     }
                 });
                 html += '</div></div>'
