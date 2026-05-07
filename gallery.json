@@ -1,13 +1,6 @@
 {
   "gallery": [
-    {
-      "id": "g-4",
-      "type": "link",
-      "url": "https://docs.google.com/document/d/example",
-      "title": "Báo cáo chi tiết - Google Docs",
-      "date": "2026-05-06",
-      "eventId": "e-1778043987269-166f5678bdd5a8"
-    },
+
     {
       "id": "g-1778119553128-b2470bfecec0c8",
       "type": "video",
