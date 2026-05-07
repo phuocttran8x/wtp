@@ -1018,7 +1018,10 @@
 
         function getAllMediaItems() {
             const galleryData = window.galleryData || [];
-            const filtered = galleryData.filter(m => m.type === 'image' || m.type === 'video');
+            const filtered = galleryData.filter(m => {
+                const t = getMediaType(m);
+                return t === 'image' || t === 'video';
+            });
             return filtered.sort((a, b) => parseDate(b.date) - parseDate(a.date))
         }
 
@@ -1068,6 +1071,14 @@
             return 'https://i.ytimg.com/vi/' + encodeURIComponent(id) + '/hqdefault.jpg'
         }
 
+        function getMediaType(item) {
+            const t = String((item && item.type) || '').toLowerCase();
+            const u = item ? item.url : '';
+            if (isYouTubeUrl(u) || isDirectVideoUrl(u)) return 'video';
+            if (isDirectImageUrl(u)) return 'image';
+            return t
+        }
+
         function getImageCardHtml(m, mediaDate) {
             const title = escapeHtml(m.title || 'Hình ảnh');
             const url = escapeHtml(m.url || '');
@@ -1109,9 +1120,10 @@
                 let htmlAll = '<div class="gallery-grid gallery-grid-row">';
                 filtered.forEach(m => {
                     const mediaDate = m.date || m.eventDate;
-                    if (m.type === 'image') {
+                    const mediaType = getMediaType(m);
+                    if (mediaType === 'image') {
                         htmlAll += getImageCardHtml(m, mediaDate)
-                    } else if (m.type === 'video') {
+                    } else if (mediaType === 'video') {
                         htmlAll += getVideoCardHtml(m, mediaDate)
                     }
                 });
@@ -1134,9 +1146,10 @@
                 html += '<div class="gallery-date-label">' + formatDate(date) + '</div>';
                 html += '<div class="' + rowClass + '">';
                 grouped[date].forEach(m => {
-                    if (m.type === 'image') {
+                    const mediaType = getMediaType(m);
+                    if (mediaType === 'image') {
                         html += getImageCardHtml(m, null)
-                    } else if (m.type === 'video') {
+                    } else if (mediaType === 'video') {
                         html += getVideoCardHtml(m, null)
                     }
                 });
@@ -1259,13 +1272,14 @@
                 const modal = document.getElementById('mediaModal');
                 const modalBody = document.getElementById('modalBody');
                 const modalInfo = document.getElementById('modalInfo');
-                if (mediaType === 'image') {
+                const effectiveType = (mediaType === 'image' && (isYouTubeUrl(mediaUrl) || isDirectVideoUrl(mediaUrl))) ? 'video' : mediaType;
+                if (effectiveType === 'image') {
                     if (isDirectImageUrl(mediaUrl)) {
                         modalBody.innerHTML = '<img src="' + escapeHtml(mediaUrl) + '" alt="' + escapeHtml(mediaTitle) + '" />'
                     } else {
                         modalBody.innerHTML = '<div class="gallery-card-fallback" style="min-height:260px">Không thể nhúng ảnh từ link này.<br />Bấm nút bên dưới để mở link gốc.</div><div style="padding:12px"><a class="button-link blue" href="' + escapeHtml(mediaUrl) + '" target="_blank" rel="noopener">Mở link gốc</a></div>'
                     }
-                } else if (mediaType === 'video') {
+                } else if (effectiveType === 'video') {
                     if (isYouTubeUrl(mediaUrl)) {
                         modalBody.innerHTML = '<iframe src="' + escapeHtml(getYouTubeEmbedUrl(mediaUrl)) + '" title="' + escapeHtml(mediaTitle) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
                     } else if (isDirectVideoUrl(mediaUrl)) {

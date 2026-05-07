@@ -763,7 +763,7 @@
         }
 
         function addMedia() {
-            const type = document.getElementById('mediaType').value;
+            let type = document.getElementById('mediaType').value;
             const url = document.getElementById('mediaUrl').value.trim();
             const title = document.getElementById('mediaTitle').value.trim();
             const date = document.getElementById('mediaDate').value || todayString();
@@ -773,6 +773,10 @@
             const isImageExt = /\.(png|jpe?g|gif|webp|bmp|svg)(\?|#|$)/i.test(url);
             const isVideoExt = /\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i.test(url);
             const isYouTube = /(youtube\.com|youtu\.be)/i.test(url);
+            if (isYouTube && type !== 'video') {
+                type = 'video';
+                setStatus('Đã tự chuyển loại media sang Video vì link YouTube.', 'waiting');
+            }
             if (type === 'image' && !isImageExt) {
                 const ok = confirm('Link này không giống file ảnh trực tiếp (jpg/png/webp...). Vẫn thêm?');
                 if (!ok) return;
