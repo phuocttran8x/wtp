@@ -1271,14 +1271,16 @@
         function renderAll() {
             const b = partyEvents('bql');
             const c = partyEvents('cdt');
+            const bLastReplyDays = getLastReplyDays(b);
+            const cLastReplyDays = getLastReplyDays(c);
             document.getElementById('bqlStatus').className = 'status ' + statusClass(b);
             document.getElementById('bqlStatus').textContent = statusText(b);
             document.getElementById('cdtStatus').className = 'status ' + statusClass(c);
             document.getElementById('cdtStatus').textContent = statusText(c);
             document.getElementById('bqlTotalDays').textContent = totalDays(b);
             document.getElementById('cdtTotalDays').textContent = totalDays(c);
-            document.getElementById('bqlLastReplyDays').textContent = getLastReplyDays(b) === null ? '--' : getLastReplyDays(b);
-            document.getElementById('cdtLastReplyDays').textContent = getLastReplyDays(c) === null ? '--' : getLastReplyDays(c);
+            document.getElementById('bqlLastReplyDays').textContent = bLastReplyDays === null ? '--' : bLastReplyDays;
+            document.getElementById('cdtLastReplyDays').textContent = cLastReplyDays === null ? '--' : cLastReplyDays;
             document.getElementById('bqlLastReplyInfo').textContent = lastReplyInfoText(b);
             document.getElementById('cdtLastReplyInfo').textContent = lastReplyInfoText(c);
             renderTimeline('bqlTimeline', b);
