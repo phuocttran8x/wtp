@@ -1,19 +1,19 @@
 {
-  "gallery": [
+    "gallery": [
 
-    {
-      "id": "g-1778119553128-b2470bfecec0c8",
-      "type": "video",
-      "url": "https://youtu.be/zdi05KznKEI",
-      "title": "Đơn vị thi công làm hư hỏng hạ tầng",
-      "date": "2026-05-07"
-    },
-    {
-      "id": "g-1778119656480-68c6cb3f615528",
-      "type": "image",
-      "url": "https://youtube.com/shorts/Eax-ZqYTtXg",
-      "title": "Bảo vệ đã được đào tạo như CDT đã phản hồi?",
-      "date": "2026-05-07"
-    }
-  ]
+        {
+            "id": "g-1778119553128-b2470bfecec0c8",
+            "type": "video",
+            "url": "https://youtu.be/zdi05KznKEI",
+            "title": "Đơn vị thi công làm hư hỏng hạ tầng",
+            "date": "2026-05-07"
+        },
+        {
+            "id": "g-1778119656480-68c6cb3f615528",
+            "type": "video",
+            "url": "https://youtube.com/shorts/Eax-ZqYTtXg",
+            "title": "Bảo vệ đã được đào tạo như CDT đã phản hồi?",
+            "date": "2026-05-07"
+        }
+    ]
 }
