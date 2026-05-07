@@ -1131,7 +1131,8 @@
             const detail = e.target.getAttribute('data-detail-toggle');
             const mediaOpen = e.target.getAttribute('data-media-open');
             const galleryTab = e.target.getAttribute('data-filter');
-            const galleryMediaOpen = e.target.getAttribute('data-media-open-gallery') || e.target.closest('[data-media-open-gallery]') ? .getAttribute('data-media-open-gallery');
+            const galleryCard = e.target.closest('[data-media-open-gallery]');
+            const galleryMediaOpen = e.target.getAttribute('data-media-open-gallery') || (galleryCard ? galleryCard.getAttribute('data-media-open-gallery') : null);
 
             if (pdf) {
                 const v = document.getElementById('pdf-' + pdf);
